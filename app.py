@@ -11,3 +11,7 @@ debug = DebugToolbarExtension(app)
 
 
 boggle_game = Boggle()
+
+@app.route('/')
+def root():
+    return render_template('home.html')
