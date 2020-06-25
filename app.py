@@ -14,4 +14,5 @@ boggle_game = Boggle()
 
 @app.route('/')
 def root():
+    session['game_board'] = boggle_game.make_board()
     return render_template('home.html')

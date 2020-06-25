@@ -5,4 +5,12 @@
 {%block main%}
 
 
+{%for value in session['game_board']%}
+<tr>
+    {%for val in value%}
+        <td>{{val}}</td>
+    {% endfor %}
+</tr>
+{% endfor %}
+
 {% endblock %}
