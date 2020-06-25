@@ -1,10 +1,10 @@
 {% extends 'base.html'%}
 
-{%block title %} HomePage {% endblock %}
+{%block title %} Playing Boggle {% endblock %}
 
 {%block main%}
 
-
+<table>
 {%for value in session['game_board']%}
 <tr>
     {%for val in value%}
@@ -12,5 +12,11 @@
     {% endfor %}
 </tr>
 {% endfor %}
+</table>
 
+<form action="/check">
+    <input type="text" name="Guess">
+    <label>Guess</label>
+    <button type="submit">Enter</button>
+</form>
 {% endblock %}
