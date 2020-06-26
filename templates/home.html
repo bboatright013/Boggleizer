@@ -3,6 +3,12 @@
 {%block title %} Playing Boggle {% endblock %}
 
 {%block main%}
+<section id="score-board">
+    <div>ScoreBoard: </div><div id="score"></div>
+</section>
+<section id="message-board">
+   <div>Message: </div><div id="message"></div>
+</section>
 
 <table>
 {%for value in session['game_board']%}
@@ -14,8 +20,8 @@
 {% endfor %}
 </table>
 
-<form action="/check">
-    <input type="text" name="Guess">
+<form id="Guess-Form" >
+    <input type="text" name="Guess" id="Guess">
     <label>Guess</label>
     <button type="submit">Enter</button>
 </form>

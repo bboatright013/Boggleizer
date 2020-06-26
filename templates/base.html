@@ -9,7 +9,7 @@
         <title>{% block title %}{% endblock%}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="/static/styles.css">
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -22,6 +22,8 @@
 
         {% endblock %}
         
-        <script src="" async defer></script>
+        <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/axios/dist/axios.js"></script>
+        <script src="/static/app.js"></script>
     </body>
 </html>

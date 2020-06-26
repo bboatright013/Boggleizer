@@ -1,5 +1,5 @@
 from boggle import Boggle
-from flask import Flask, render_template, request, redirect, flash, session
+from flask import Flask, render_template, request, redirect, flash, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
@@ -26,16 +26,31 @@ def play_game():
 @app.route('/check')
 def check():
     guess = request.args.get("Guess")
-    if check_repeat_guess(guess):
-        flash("already guessed")
-        return redirect('/play_game')
+
+    if check_in_words(guess) != True: 
+        res = check_guess(guess)
+        return jsonify(msg="Not Scorable",
+                        res = res)
+    if check_repeat_guess(guess) == True:
+        res = check_guess(guess)
+        return jsonify(msg="already guessed that one mate",
+                        res = res)
     res = check_guess(guess)
     points = check_points(guess, res)
-    flash(f"{res}, scored {points}")
-    return redirect('/play_game')
+    return jsonify(msg="Good Find!",
+                    res = res,
+                    points = points)
+
+
 
 def check_repeat_guess(guess):
     for word in session['answered']:
+        if word == guess:
+            return True
+    return False
+
+def check_in_words(guess):
+    for word in boggle_game.words:
         if word == guess:
             return True
     return False
@@ -52,7 +67,7 @@ def check_points(guess, res):
     if res == 'ok':
         for char in guess:
             points = points + 1
-    tmp_points = session['point_total']
-    tmp_points = tmp_points + points
-    session['point_total'] = tmp_points
+    # tmp_points = session['point_total']
+    # tmp_points = tmp_points + points
+    # session['point_total'] = tmp_points
     return points
