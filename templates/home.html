@@ -4,13 +4,13 @@
 
 {%block main%}
 <section id="score-board">
-    <div>ScoreBoard: </div><div id="score"></div>
+    <div>ScoreBoard: </div><div id="score"></div> <div>Time: </div><div id="Timer"></div>
 </section>
 <section id="message-board">
    <div>Message: </div><div id="message"></div>
 </section>
 
-<table>
+<table id="the_board">
 {%for value in session['game_board']%}
 <tr>
     {%for val in value%}
@@ -25,4 +25,13 @@
     <label>Guess</label>
     <button type="submit">Enter</button>
 </form>
+
+<section id="game_over">
+    <div id="game_over_message">Game Over!</div>
+ </section>
+
 {% endblock %}
+
+{% block scripts %}
+<script src="/static/timer.js"></script>
+{% endblock%}

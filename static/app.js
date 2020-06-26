@@ -1,8 +1,9 @@
 
-
+const $the_board = $("#the_board");
 const $Guess_Form = $('#Guess-Form');
 const $score = $("#score");
 const $message = $("#message");
+const $game_over = $("#game_over");
 let points = 0;
 
 
