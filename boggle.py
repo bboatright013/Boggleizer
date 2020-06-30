@@ -1,5 +1,5 @@
 """Utilities related to Boggle game."""
-
+from flask import session
 from random import choice
 import string
 
@@ -143,3 +143,33 @@ class Boggle():
         # Sad panda.
 
         return False
+
+    def check_repeat_guess(self, guess, alist):
+        # for word in session['answered']:
+        for word in alist:
+            if word == guess:
+                return True
+        return False
+
+    def check_in_words(self, guess):
+        for word in self.words:
+            if word == guess:
+                return True
+        return False
+
+    def check_guess(self, guess, theboard):
+        res = self.check_valid_word(theboard, guess)
+        answered = session['answered']
+        answered.append(guess)
+        session['answered'] = answered
+        return res
+
+    def check_points(self, guess, res):
+        points = 0
+        if res == 'ok':
+            for char in guess:
+                points = points + 1
+        tmp_points = session['point_total']
+        tmp_points = tmp_points + points
+        session['point_total'] = tmp_points
+        return points

@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+
+{%block title %} Post Game {% endblock %}
+
+{%block main%}
+<section>
+    <p>Words guessed:</p>
+<ul>
+    {% for guess in session['answered']%}
+        <li>{{guess}}</li>
+    {% endfor %}
+</ul>
+<p>Points Scored: {{session['point_total']}}</p>
+<p>High Score: {{session['high_score']}}</p>
+<p>Games Played: {{session['games_played']}}</p>
+
+</section>
+<form action="/play_game">
+<h2>Play Again?</h2>
+<button type="submit">Play More!</button>
+</form>
+{% endblock %}

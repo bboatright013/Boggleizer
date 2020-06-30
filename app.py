@@ -14,60 +14,47 @@ boggle_game = Boggle()
 
 @app.route('/')
 def root():
-    session['game_board'] = boggle_game.make_board()
-    session['answered'] = []
-    session['point_total'] = 0
+
+    session['high_score'] = 0
+    session['games_played'] = 0
     return render_template('main.html')
 
 @app.route('/play_game')
 def play_game():
+    session['game_board'] = boggle_game.make_board()
+    session['answered'] = []
+    session['point_total'] = 0
     return render_template('home.html')
 
 @app.route('/check')
 def check():
     guess = request.args.get("Guess")
+    alist = session['answered']
+    theboard = session['game_board']
 
-    if check_in_words(guess) != True: 
-        res = check_guess(guess)
+    if boggle_game.check_in_words(guess) != True: 
+        res = boggle_game.check_guess(guess, theboard)
         return jsonify(msg="Not Scorable",
                         res = res)
-    if check_repeat_guess(guess) == True:
-        res = check_guess(guess)
+    if boggle_game.check_repeat_guess(guess,  alist) == True:
+        res = boggle_game.check_guess(guess,theboard)
         return jsonify(msg="already guessed that one mate",
                         res = res)
-    res = check_guess(guess)
-    points = check_points(guess, res)
+    res = boggle_game.check_guess(guess, theboard)
+    points = boggle_game.check_points(guess, res)
     return jsonify(msg="Good Find!",
                     res = res,
                     points = points)
 
+@app.route('/post-game')
+def post_game():
+    if session['point_total'] > session['high_score']:
+        session['high_score'] = session['point_total']        
+    return render_template('/post-game.html')
 
+@app.route("/post-score")
+def post_score():
+    games = session.get("games_played", 0)
+    session['games_played'] = games + 1
 
-def check_repeat_guess(guess):
-    for word in session['answered']:
-        if word == guess:
-            return True
-    return False
-
-def check_in_words(guess):
-    for word in boggle_game.words:
-        if word == guess:
-            return True
-    return False
-
-def check_guess(guess):
-    res = boggle_game.check_valid_word(session['game_board'], guess)
-    answered = session['answered']
-    answered.append(guess)
-    session['answered'] = answered
-    return res
-
-def check_points(guess, res):
-    points = 0
-    if res == 'ok':
-        for char in guess:
-            points = points + 1
-    # tmp_points = session['point_total']
-    # tmp_points = tmp_points + points
-    # session['point_total'] = tmp_points
-    return points
+    return redirect('/post_game')
